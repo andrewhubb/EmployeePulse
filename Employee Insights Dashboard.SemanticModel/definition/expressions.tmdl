@@ -1,0 +1,7 @@
+expression FilePath = "D:\OneDrive - DataVizExpert\Data\Employee Insights Dashboard\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 775cba1c-7a42-4b66-906a-41908e40fbf2
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

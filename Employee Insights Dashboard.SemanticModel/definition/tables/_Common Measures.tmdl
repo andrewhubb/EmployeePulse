@@ -1,0 +1,78 @@
+table '_Common Measures'
+	lineageTag: b9de4b84-658d-4c6f-bbfb-d094a191db4b
+
+	measure 'Total Employees' = ```
+			
+			    COUNTROWS(       
+			        'Data'        
+			    )
+			```
+		formatString: #,0
+		lineageTag: 88d8d176-6772-4c9d-ae8f-083ca8fe98c5
+
+	measure 'Total Salary' = ```
+			
+			    SUM(
+			        Data[Current Salary]
+			    )
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 0c372e15-cfd1-4528-9d0f-9a78391417e2
+
+	measure 'Average Salary' = ```
+			
+			    AVERAGE(
+			        Data[Current Salary]
+			    )
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 5685b5be-2621-4c3c-be0c-a2676b5f83c2
+
+	measure 'Yearly Average Tenure' = ```
+			
+			VAR AvgTenure = 
+			    AVERAGE(
+			        Data[TenureDays]
+			    )
+			RETURN
+			    DIVIDE(
+			        AvgTenure,
+			        365,
+			        0
+			    )        
+			```
+		formatString: #,0.00
+		lineageTag: 53b0c90f-f80b-423f-b13d-754b24510fcb
+
+	measure 'Leave Balance' = ```
+			
+			    SUM(
+			        Data[Leave Balance]
+			    )
+			```
+		formatString: #,0
+		lineageTag: edb7b7f2-d232-4191-a46b-0b0a45ceb1c2
+
+	measure 'Total sick days' = ```
+			
+			    SUM(
+			        Data[Sick Days Last 12 Mths)]
+			    )
+			```
+		formatString: #,0
+		lineageTag: fad421b9-b65d-40bf-9029-d877409a9bf1
+
+	partition '_Common Measures' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

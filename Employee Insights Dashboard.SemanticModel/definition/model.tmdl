@@ -1,0 +1,24 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Data","_Common Measures","_Branch Measures","FilePath"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.132.1053.0 (24.08)
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Data
+ref table DateTableTemplate_68d92ffe-b29a-4323-b345-7540a2ea2ef0
+ref table LocalDateTable_1c190863-64fd-4e94-ae97-bb5722dbca88
+ref table '_Common Measures'
+ref table '_Branch Measures'
+
+ref cultureInfo en-GB
+

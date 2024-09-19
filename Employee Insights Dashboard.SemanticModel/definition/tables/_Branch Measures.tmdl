@@ -1,0 +1,174 @@
+table '_Branch Measures'
+	lineageTag: 036b15b4-d9d5-4294-b547-e603175926bd
+
+	measure 'Active Employees' = ```
+			
+			    VAR active = 
+			        CALCULATE(
+			            [Total Employees],
+			            FILTER(
+			                Data,
+			                Data[Remains Employees] = "Yes"
+			            )
+			        )
+			    RETURN
+			        COALESCE(
+			            active,
+			            0
+			        )
+			
+			```
+		formatString: #,0
+		lineageTag: 0abd6712-cdc5-41d1-8691-17e54e564339
+
+	measure 'Inactive Employees' = ```
+			
+			    VAR Inactive =    
+			        CALCULATE(
+			            [Total Employees],
+			            FILTER(
+			                Data,
+			                Data[Remains Employees] = "No"
+			            )
+			        )
+			    RETURN
+			        COALESCE(
+			            Inactive,
+			            0
+			        )
+			```
+		formatString: #,0
+		lineageTag: 3229a2e8-414e-4bb8-89cb-efab6b7e4a86
+
+	measure '% Active Employees' = ```
+			
+			    DIVIDE(
+			        [Active Employees],
+			        [Total Employees],
+			        0
+			    )
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 9943be71-263c-43be-b842-232b7d91641a
+
+	measure '% InActive Employees' = ```
+			
+			    DIVIDE(
+			        [Inactive Employees],
+			        [Total Employees],
+			        0
+			    )
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 7bf5c0d1-af61-4f7d-833b-fbed8b6b1d25
+
+	measure Voluntary = ```
+			
+			    VAR Voluntary = 
+			        CALCULATE(
+			            [Total Employees],
+			            Data[SeperationReason] = "Voluntary"
+			        )
+			    RETURN
+			        COALESCE(
+			            Voluntary,
+			            0
+			        )
+			
+			```
+		formatString: #,0
+		lineageTag: 24fce288-71bc-4cc8-880f-f2538dbd4c65
+
+	measure Involuntary = ```
+			
+			    VAR Involuntasry = 
+			        CALCULATE(
+			            [Total Employees],
+			            Data[SeperationReason] = "Involuntary"
+			        )
+			    RETURN
+			        COALESCE(
+			            Involuntasry,
+			            0
+			        )
+			```
+		formatString: 0
+		lineageTag: 6ec43f07-ea20-4850-88b7-ebb9bccfcc54
+
+	measure '% Voluntary' = ```
+			
+			    DIVIDE(
+			        [Voluntary],
+			        [Total Employees],
+			        0
+			    )
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 0e6fad6d-483b-42a8-ac65-88953e894c43
+
+	measure '% Involuntary' = ```
+			
+			    DIVIDE(
+			        [Involuntary],
+			        [Total Employees],
+			        0
+			    )
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: d35ffb0b-005a-4bef-acb1-da9209f9d523
+
+	measure 'Cumulative active employees' = ```
+			
+			    CALCULATE(
+			        [Active Employees],
+			        FILTER(
+			            ALL(
+			                Data
+			            ),
+			            Data[HireDate] <= 
+			            MAX(
+			                Data[HireDate].[Date]
+			            )
+			    ))
+			```
+		formatString: 0
+		lineageTag: 2183e546-3d0e-47c3-9cba-fabbdc739f0c
+
+	measure 'Total Male Employees' = ```
+			
+			    CALCULATE(
+			        [Total Employees],
+			        FILTER(
+			            Data,
+			            Data[Gender] = "Male"
+			        )
+			    )
+			```
+		formatString: #,0
+		lineageTag: 843efaac-885b-4faa-b856-565792773de3
+
+	measure 'Total Female Employees' = ```
+			
+			    CALCULATE(
+			        [Total Employees],
+			        FILTER(
+			            Data,
+			            Data[Gender] = "Female"
+			        )
+			    )
+			```
+		formatString: #,0
+		lineageTag: 8cc13726-fca1-4b79-9a2d-46f777f63d34
+
+	partition '_Branch Measures' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

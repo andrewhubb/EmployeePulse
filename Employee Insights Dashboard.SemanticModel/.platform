@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Employee Insights Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "47c7ed62-f282-48b8-987e-64e62f438e37"
+  }
+}

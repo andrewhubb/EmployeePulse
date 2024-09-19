@@ -1,0 +1,177 @@
+table Data
+	lineageTag: cbcfdd21-887b-4c59-82e8-1f86df3caefb
+
+	column EmployeeID
+		dataType: int64
+		formatString: 0
+		lineageTag: dd60e682-d373-4b04-8dcc-f2f14a6265e2
+		summarizeBy: count
+		sourceColumn: EmployeeID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: fd1c9cc9-eba6-4073-9999-f4fb2fd43976
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: int64
+		formatString: 0
+		lineageTag: 8ccd058f-1632-41bb-a3c5-d85671683a51
+		summarizeBy: sum
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column EthnicGroup
+		dataType: string
+		lineageTag: 4504661a-d3c7-43e4-b3e4-36f736baf2cb
+		summarizeBy: none
+		sourceColumn: EthnicGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Work Type'
+		dataType: string
+		lineageTag: 71eca281-8467-4aed-9df3-6dd5a733ff7e
+		summarizeBy: none
+		sourceColumn: Work Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Unit'
+		dataType: string
+		lineageTag: 75c36977-7518-4dec-bc12-a5a968b12340
+		summarizeBy: none
+		sourceColumn: Business Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost Centre'
+		dataType: string
+		lineageTag: 065a96c7-69b5-49b1-ab48-bab591513c16
+		summarizeBy: none
+		sourceColumn: Cost Centre
+
+		annotation SummarizationSetBy = Automatic
+
+	column HireDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 631a7acf-b354-4e40-9cae-40f1861f214d
+		summarizeBy: none
+		sourceColumn: HireDate
+
+		variation Variation
+			isDefault
+			relationship: e5cd84e0-4b34-44d9-8a2f-8703597c41d7
+			defaultHierarchy: LocalDateTable_1c190863-64fd-4e94-ae97-bb5722dbca88.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Remains Employees'
+		dataType: string
+		lineageTag: 044c5b1d-42d0-4105-90cd-78f087ee606e
+		summarizeBy: none
+		sourceColumn: Remains Employees
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayType
+		dataType: string
+		lineageTag: d9ec90b4-2fef-4a7c-98a7-f6967dfc382b
+		summarizeBy: none
+		sourceColumn: PayType
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeperationReason
+		dataType: string
+		lineageTag: 1f79ceda-f300-435f-b0f5-a9dbfcf5f4b7
+		summarizeBy: none
+		sourceColumn: SeperationReason
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeGroup
+		dataType: string
+		lineageTag: 54b9205f-c324-4e07-9923-41ffaf75a1cb
+		summarizeBy: none
+		sourceColumn: AgeGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column TenureDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 58dd847f-001b-4da6-8649-ec1a3ec0035f
+		summarizeBy: sum
+		sourceColumn: TenureDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column TernureMonths
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dc14e9d-9742-4beb-8bed-d74b887aa7f2
+		summarizeBy: sum
+		sourceColumn: TernureMonths
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Leave Balance'
+		dataType: int64
+		formatString: 0
+		lineageTag: 95b4630f-d03e-4810-a0fe-152052db73a8
+		summarizeBy: sum
+		sourceColumn: Leave Balance
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sick Days Last 12 Mths)'
+		dataType: int64
+		formatString: 0
+		lineageTag: ab55d342-cd0b-41ee-86fb-6aad63d90e14
+		summarizeBy: sum
+		sourceColumn: Sick Days Last 12 Mths)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Salary'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2465f6d3-8450-43f1-b7f6-99aab4e781bd
+		summarizeBy: sum
+		sourceColumn: Current Salary
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Employee Rating'
+		dataType: int64
+		formatString: 0
+		lineageTag: bc9563bb-4b9a-4797-8b7f-e67cc2f8e1e9
+		summarizeBy: sum
+		sourceColumn: Current Employee Rating
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Data = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(FilePath & "Hr data.xlsx"), null, true),
+				    Employee_Data_Table = Source{[Item="Employee_Data",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Employee_Data_Table,{{"EmployeeID", Int64.Type}, {"Gender", type text}, {"Age", Int64.Type}, {"EthnicGroup", type text}, {"Work Type", type text}, {"Business Unit", type text}, {"Cost Centre", type text}, {"HireDate", type date}, {"Remains Employees", type text}, {"PayType", type text}, {"SeperationReason", type text}, {"AgeGroup", type text}, {"TenureDays", Int64.Type}, {"TernureMonths", Int64.Type}, {"Leave Balance", Int64.Type}, {"Sick Days Last 12 Mths)", Int64.Type}, {"Current Salary", Int64.Type}, {"Current Employee Rating", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

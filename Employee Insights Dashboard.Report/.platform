@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Employee Insights Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c23686f9-7f2c-42c1-aa91-40339d341b6e"
+  }
+}
